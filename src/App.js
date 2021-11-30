@@ -7,13 +7,16 @@ import SearchArticles from "./pages/SearchArticles";
 import Article from "./pages/Article";
 import History from "./pages/History";
 
-import api from "./api/request"
+import api from "./api/request";
 
 import './App.css';
+
+const storage = localStorage.getItem("wiki-search")
 
 function App() {
   const [results, setResults] = useState([]);
   const [resultLimit] = useState(5);
+  const [history, setHistory] = useState(()=> JSON.parse(storage) || []);
 
   const handleOnKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -24,7 +27,10 @@ function App() {
       else {
         api.get(`https://en.wikipedia.org/w/rest.php/v1/search/page?q=${e.target.value}&limit=${resultLimit}`)
           .then(data => {
-            setResults(data.pages)
+            setResults(data.pages);
+            const updatedHistory = [...history, ...data.pages];
+            localStorage.setItem("wiki-search", JSON.stringify(updatedHistory))
+            setHistory(updatedHistory);
           })
       }
     }
@@ -37,7 +43,7 @@ function App() {
       <Routes>
         <Route path="/search-articles" element={<SearchArticles results={results} onKeyDown={handleOnKeyDown} />} />
         <Route path="/:articleKey" element={<Article />} />
-        <Route path="/history" element={<History />} />
+        <Route path="/history" element={<History history={history}/>} />
         <Route path="/" element={<Home />} />
       </Routes>
     </div>
