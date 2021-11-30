@@ -1,19 +1,21 @@
-
 import { Link } from "react-router-dom";
 
 function NavBar() {
-    return (
-        <nav
-        style={{
-          borderBottom: "solid 1px",
-          paddingBottom: "1rem"
-        }}
-      >
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/search-articles">Search Articles</Link> | {" "}
-        <Link to="/history">History</Link> | {" "}
-      </nav>
-    );
+  return (
+    <nav className="nav">
+      <ul className="nav-list">
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/search-articles">Search Articles</Link>
+        </li>
+        <li>
+          <Link to="/history">History</Link>
+        </li>
+      </ul>
+    </nav>
+  );
 }
 
 export default NavBar;
