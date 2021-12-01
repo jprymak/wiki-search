@@ -18,7 +18,7 @@ function App() {
   const [resultLimit] = useState(5);
   const [history, setHistory] = useState(()=> JSON.parse(storage) || []);
 
-  const handleOnKeyDown = (e) => {
+  const handleSearch = (e) => {
     if (e.key === "Enter") {
       if (e.target.value === "") {
         setResults([])
@@ -41,7 +41,7 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
-        <Route path="/search-articles" element={<SearchArticles results={results} onKeyDown={handleOnKeyDown} />} />
+        <Route path="/search-articles" element={<SearchArticles results={results} onSearch={handleSearch} />} />
         <Route path="/:articleKey" element={<Article />} />
         <Route path="/history" element={<History history={history}/>} />
         <Route path="/" element={<Home />} />
