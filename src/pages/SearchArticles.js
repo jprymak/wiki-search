@@ -1,15 +1,17 @@
 import parse from 'html-react-parser';
 import{Link} from "react-router-dom";
-function SearchArticles({results, onKeyDown }) {
+import { GiMagnifyingGlass } from "react-icons/gi";
+function SearchArticles({results, onSearch }) {
   return (
-    <div>
-      <form onSubmit={(e)=>e.preventDefault()} className="search">
+    <div className="search-articles">
+      <form onSubmit={(e)=>e.preventDefault()} className="search-bar">
         <input
-        onKeyDown={onKeyDown}
+        onKeyDown={onSearch}
           type="text"
           className="search-input"
           placeholder="Search for articles"
         />
+        <GiMagnifyingGlass/>
       </form>
       <section className="search-results">
           <ul className="result-list">

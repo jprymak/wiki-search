@@ -1,5 +1,7 @@
 .App {
   text-align: start;
+  background: var(--color-white);
+  min-height: 100vh;
 }
 
 
