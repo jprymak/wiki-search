@@ -1,4 +1,3 @@
-import { GiMagnifyingGlass } from "react-icons/gi";
 import parse from 'html-react-parser';
 import{Link} from "react-router-dom";
 function SearchArticles({results, onKeyDown }) {
@@ -11,9 +10,6 @@ function SearchArticles({results, onKeyDown }) {
           className="search-input"
           placeholder="Search for articles"
         />
-        <button className="search-button">
-          <GiMagnifyingGlass />
-        </button>
       </form>
       <section className="search-results">
           <ul className="result-list">
