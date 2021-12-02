@@ -9,6 +9,7 @@
   --color-white: #ecf0f1;
 
   --color-grey-dark: #777;
+
   /*Font-sizes*/
   --font-very-big: 2.4rem;
   --font-big: 2rem;
@@ -55,7 +56,7 @@ code {
   padding: 1rem;
   grid-gap: 0.4rem 1rem;
   text-align: left;
-  box-shadow: 0 1rem 4rem rgba(0,0,0,.25);
+  box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.25);
   background-color: rgb(255, 255, 255);
 }
 
@@ -129,19 +130,18 @@ code {
   font-weight: bold;
 }
 
-.current-language{
+.current-language {
   font-size: var(--font-medium);
   display: flex;
   align-items: center;
 }
 
-.current-language-info{
+.current-language-info {
   font-size: inherit;
   margin-right: 2rem;
-  
 }
 
-.english-button{
+.english-button {
   font-size: inherit;
   border: none;
   background-color: var(--color-blue-light);
@@ -151,7 +151,7 @@ code {
   border-radius: 6px;
 }
 
-.english-button:hover{
+.english-button:hover {
   background-color: var(--color-white);
   color: var(--color-blue-light);
 }
@@ -244,16 +244,73 @@ code {
   flex-direction: column;
 }
 
-.article{
-display:flex;
-flex-direction: column;
+.article {
+  display: flex;
+  flex-direction: column;
 }
 
-.loader{
-margin: 5rem auto 0 auto;
+.loader {
+  margin: 5rem auto 0 auto;
 }
 
-.loader-message{
-font-size: var(--font-medium);
-font-family: ubuntu;
+.loader-message {
+  font-size: var(--font-medium);
+  font-family: ubuntu;
+}
+
+.history {
+  display: grid;
+  place-content: center;
+}
+
+.history-heading {
+  font-family: ubuntu;
+  color: var(--color-blue-dark);
+  font-size: var(--font-very-big);
+  border-bottom: 1px solid var(--color-blue);
+  margin-bottom: 3rem;
+  margin-right: 2rem;
+}
+
+.history-card {
+  background: #ffffff;
+  padding: 2rem;
+  margin: 3rem 0;
+  box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+}
+
+.history-list {
+  list-style: none;
+}
+
+.history-list-item {
+  font-size: var(--font-small);
+  padding: 0.2rem;
+}
+
+.history-header {
+  display: flex;
+}
+
+.clear-history-btn {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background: var(--color-blue);
+  color: var(--color-white);
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-size: var(--font-small);
+}
+
+.clear-history-btn:active{
+  transform: translateY(0.2rem)
+}
+
+.clear-history-btn svg {
+  width: 3rem;
+  height: 3rem;
 }

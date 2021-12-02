@@ -40,13 +40,17 @@ function App() {
 
   }
 
+  const handleClearHistory = () =>{
+    setHistory([])
+  }
+
   return (
     <div className="App">
       <NavBar />
       <Routes>
         <Route path="/search-articles" element={<SearchArticles results={results} onSearch={handleSearch} isLoading={isLoading}/>} />
         <Route path="/:articleKey" element={<Article />} />
-        <Route path="/history" element={<History history={history}/>} />
+        <Route path="/history" element={<History history={history} handleClearHistory={handleClearHistory}/>} />
         <Route path="/" element={<Home />} />
       </Routes>
     </div>
