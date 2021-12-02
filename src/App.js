@@ -17,6 +17,7 @@ function App() {
   const [results, setResults] = useState([]);
   const [resultLimit] = useState(5);
   const [history, setHistory] = useState(()=> JSON.parse(storage) || []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = (e) => {
     if (e.key === "Enter") {
@@ -25,12 +26,14 @@ function App() {
         return
       }
       else {
+        setIsLoading(true)
         api.get(`https://en.wikipedia.org/w/rest.php/v1/search/page?q=${e.target.value}&limit=${resultLimit}`)
           .then(data => {
             setResults(data.pages);
             const updatedHistory = [...history, ...data.pages];
             localStorage.setItem("wiki-search", JSON.stringify(updatedHistory))
             setHistory(updatedHistory);
+            setIsLoading(false)
           })
       }
     }
@@ -41,7 +44,7 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
-        <Route path="/search-articles" element={<SearchArticles results={results} onSearch={handleSearch} />} />
+        <Route path="/search-articles" element={<SearchArticles results={results} onSearch={handleSearch} isLoading={isLoading}/>} />
         <Route path="/:articleKey" element={<Article />} />
         <Route path="/history" element={<History history={history}/>} />
         <Route path="/" element={<Home />} />

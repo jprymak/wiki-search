@@ -1,8 +1,10 @@
+import { GiMagnifyingGlass } from "react-icons/gi";
 
 function SearchBar({children}) {
   return (
-    <form className="search">
+    <form  onSubmit={(e)=>e.preventDefault()} className="search-bar">
       {children}
+      <GiMagnifyingGlass/>
     </form>
   );
 }

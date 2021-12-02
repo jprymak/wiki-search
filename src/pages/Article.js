@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import parse, { domToReact } from 'html-react-parser';
-const initialLanguage = {code:"en", name: "English"};
+
+import SearchBar from "../components/SearchBar";
+import LoaderContainer from "../components/LoaderContainer";
+
+const initialLanguage = { code: "en", name: "English" };
 function Article() {
-  
   const [page, setPage] = useState(null);
   const [currentLanguage, setCurrentLanguage] = useState(initialLanguage);
   const [filteredLanguages, setFilteredLanguages] = useState([]);
   const [languages, setLanguages] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { articleKey } = useParams();
 
@@ -28,10 +32,12 @@ function Article() {
 
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`https://${currentLanguage.code}.wikipedia.org/w/rest.php/v1/page/${searchForArticleKey(currentLanguage)}/with_html`)
       .then(response => response.json())
       .then(data => {
-        setPage(data.html)
+        setPage(data.html);
+        setIsLoading(false);
       })
   }, [currentLanguage])
 
@@ -40,50 +46,58 @@ function Article() {
       .then(response => response.json())
       .then(data => {
         setLanguages(data)
-  console.log(data)
       })
   }, [])
 
-  const searchForArticleKey = (currentLanguage) =>{
+  const searchForArticleKey = (currentLanguage) => {
     console.log(currentLanguage, languages)
-    if(currentLanguage.code === "en"){
+    if (currentLanguage.code === "en") {
       return articleKey
     }
-    else{
-      const language = languages.find(language=>language.code===currentLanguage.code);
+    else {
+      const language = languages.find(language => language.code === currentLanguage.code);
       return language.key
     }
   }
 
   const handleSearchLanguage = (e) => {
-    if(!e.target.value) return;
+    if (e.key!=="Enter") return;
     const regExp = new RegExp(e.target.value, "i")
-    setFilteredLanguages(languages.filter(lang =>regExp.test(lang.code)))
+    setFilteredLanguages(languages.filter(lang => regExp.test(lang.code)))
   }
 
-  const handleOnLanguageChange=(lang)=>{
-    setCurrentLanguage({code: lang.code, name: lang.name})
+  const handleOnLanguageChange = (lang) => {
+    setCurrentLanguage({ code: lang.code, name: lang.name })
   }
 
-  const handleBackToEnglish=()=>{
-    setCurrentLanguage({code: "en", name: "English"})
+  const handleBackToEnglish = () => {
+    setCurrentLanguage({ code: "en", name: "English" })
   }
 
 
 
 
   return (<div className="article">
-    <section className="languages">
-      <form className="search-language">
-        <input onChange={handleSearchLanguage} />
-      </form>
-      <ul className="language-list">
-        {filteredLanguages.map(lang => <li className="language" key={lang.code}><button onClick={()=>handleOnLanguageChange(lang)}>{lang.name}</button></li>)}
-      </ul>
-      <p>{currentLanguage.name}</p>
-      {currentLanguage.code!=="en" && <button onClick={handleBackToEnglish}>Back to English Version</button>}
-    </section>
-    {page && <div style={container}>{parse(page, options)}</div>}
+    {isLoading && <LoaderContainer loaderMessage="Parsing HTML..."/>}
+    {!isLoading && <>
+      <section className="languages">
+      <SearchBar>
+        <input
+        onKeyDown={handleSearchLanguage}
+          type="text"
+          className="search-input"
+          placeholder="filter languages"
+        />
+      </SearchBar>
+        <ul className="language-list">
+          {filteredLanguages.map(lang => <li className="language" key={lang.code}><button onClick={() => handleOnLanguageChange(lang)}>{lang.name}</button></li>)}
+        </ul>
+        <div className="current-language">
+        <p className="current-language-info">Current language: {currentLanguage.name}</p>
+        {currentLanguage.code !== "en" && <button className="english-button" onClick={handleBackToEnglish}>Back to English Version</button>}
+        </div>
+      </section>
+      <div style={container}>{parse(page, options)}</div></>}
   </div>
   )
 }

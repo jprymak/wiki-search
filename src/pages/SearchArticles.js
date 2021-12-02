@@ -1,18 +1,21 @@
 import parse from 'html-react-parser';
 import{Link} from "react-router-dom";
-import { GiMagnifyingGlass } from "react-icons/gi";
-function SearchArticles({results, onSearch }) {
+import LoaderContainer from "../components/LoaderContainer";
+
+import SearchBar from "../components/SearchBar";
+
+function SearchArticles({results, onSearch, isLoading }) {
   return (
     <div className="search-articles">
-      <form onSubmit={(e)=>e.preventDefault()} className="search-bar">
+      <SearchBar>
         <input
         onKeyDown={onSearch}
           type="text"
           className="search-input"
           placeholder="Search for articles"
         />
-        <GiMagnifyingGlass/>
-      </form>
+      </SearchBar>
+      {isLoading ? <LoaderContainer loaderMessage="Fetching data..."/> :
       <section className="search-results">
           <ul className="result-list">
               {results && results.map(result=>
@@ -24,7 +27,7 @@ function SearchArticles({results, onSearch }) {
               </li>
               )}
           </ul>
-      </section>
+      </section>}
     </div>
   );
 }
