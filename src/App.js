@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import NavBar from "./components/NavBar";
-import Home from "./pages/Home";
 import SearchArticles from "./pages/SearchArticles";
 import Article from "./pages/Article";
 import History from "./pages/History";
@@ -48,10 +47,9 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
-        <Route path="/search-articles" element={<SearchArticles results={results} onSearch={handleSearch} isLoading={isLoading}/>} />
         <Route path="/:articleKey" element={<Article />} />
         <Route path="/history" element={<History history={history} handleClearHistory={handleClearHistory}/>} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<SearchArticles results={results} onSearch={handleSearch} isLoading={isLoading}/>} />
       </Routes>
     </div>
   );
