@@ -45,7 +45,8 @@ function Article() {
     fetch(`https://${currentLanguage.code}.wikipedia.org/w/rest.php/v1/page/${searchForArticleKey(currentLanguage)}/links/language`)
       .then(response => response.json())
       .then(data => {
-        setLanguages(data)
+        setLanguages(data);
+        setFilteredLanguages(data);
       })
   }, [])
 
@@ -74,13 +75,9 @@ function Article() {
     setCurrentLanguage({ code: "en", name: "English" })
   }
 
-
-
-
   return (<div className="article">
-    {isLoading && <LoaderContainer loaderMessage="Parsing HTML..."/>}
-    {!isLoading && <>
-      <section className="languages">
+      {languages && <section className="languages">
+        <h2 className="languages-heading">Available languages</h2>
       <SearchBar>
         <input
         onKeyDown={handleSearchLanguage}
@@ -96,8 +93,9 @@ function Article() {
         <p className="current-language-info">Current language: {currentLanguage.name}</p>
         {currentLanguage.code !== "en" && <button className="english-button" onClick={handleBackToEnglish}>Back to English Version</button>}
         </div>
-      </section>
-      <div style={container}>{parse(page, options)}</div></>}
+      </section> }
+      {isLoading && <LoaderContainer loaderMessage="Parsing HTML..."/>}
+      {!isLoading && <div style={container}>{parse(page, options)}</div>}
   </div>
   )
 }
