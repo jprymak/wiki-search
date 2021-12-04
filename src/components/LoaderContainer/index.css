@@ -1,0 +1,8 @@
+.loader {
+    margin: 5rem auto 0 auto;
+  }
+  
+  .loader-message {
+    font-size: var(--font-medium);
+    font-family: ubuntu;
+  }

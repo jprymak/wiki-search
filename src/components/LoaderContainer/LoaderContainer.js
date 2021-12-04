@@ -1,5 +1,8 @@
 import Loader from "react-loader-spinner";
 
+
+import "./index.css"
+
 function LoaderContainer({loaderMessage}) {
     return (
         <div className="loader"><Loader

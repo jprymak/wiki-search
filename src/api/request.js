@@ -17,4 +17,5 @@ function get(url) {
     return request(url);
 }
 
-export default { get };
+const api =  {get};
+export default api;

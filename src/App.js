@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import NavBar from "./components/NavBar";
+import {NavBar} from "./components/NavBar";
 import SearchArticles from "./pages/SearchArticles";
 import Article from "./pages/Article";
 import History from "./pages/History";
@@ -14,7 +14,7 @@ const storage = localStorage.getItem("wiki-search")
 
 function App() {
   const [results, setResults] = useState([]);
-  const [resultLimit] = useState(5);
+  const [resultLimit] = useState(10);
   const [history, setHistory] = useState(()=> JSON.parse(storage) || []);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,6 +41,7 @@ function App() {
 
   const handleClearHistory = () =>{
     setHistory([])
+    localStorage.setItem("wiki-search", JSON.stringify([]))
   }
 
   return (

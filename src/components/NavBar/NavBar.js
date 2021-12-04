@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { GiMagnifyingGlass } from "react-icons/gi";
 
+import "./index.css";
+
 function NavBar() {
   return (
     <nav className="nav">
