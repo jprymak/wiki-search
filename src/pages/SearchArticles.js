@@ -1,8 +1,10 @@
 import parse from 'html-react-parser';
 import{Link} from "react-router-dom";
-import LoaderContainer from "../components/LoaderContainer";
 
-import SearchBar from "../components/SearchBar";
+import {LoaderContainer} from "../components/LoaderContainer";
+import {SearchBar} from "../components/SearchBar";
+
+import "./pages.css"
 
 function SearchArticles({results, onSearch, isLoading }) {
   return (

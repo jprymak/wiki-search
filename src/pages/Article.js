@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import parse, { domToReact } from 'html-react-parser';
+import parse from 'html-react-parser';
 
-import SearchBar from "../components/SearchBar";
-import LoaderContainer from "../components/LoaderContainer";
+
+import {LoaderContainer} from "../components/LoaderContainer";
+import {Languages} from "../components/Languages";
+import { ParsedArticle } from "../components/ParsedArticle";
+
+import api from "../api/request";
+import { parseOptions } from "../utils/parsing";
 
 const initialLanguage = { code: "en", name: "English" };
 function Article() {
@@ -15,26 +20,9 @@ function Article() {
 
   const { articleKey } = useParams();
 
-  const options = {
-    replace: ({ name, children }) => {
-      if (name && name === 'html') {
-        return <>{domToReact(children, options)}</>;
-      }
-      if (name && name === 'body') {
-        return <>{domToReact(children, options)}</>;
-      }
-      if (name && name === 'head') {
-        return <></>;
-      }
-    },
-    trim: true
-  };
-
-
   useEffect(() => {
     setIsLoading(true);
-    fetch(`https://${currentLanguage.code}.wikipedia.org/w/rest.php/v1/page/${searchForArticleKey(currentLanguage)}/with_html`)
-      .then(response => response.json())
+    api.get(`https://${currentLanguage.code}.wikipedia.org/w/rest.php/v1/page/${searchForArticleKey(currentLanguage)}/with_html`)
       .then(data => {
         setPage(data.html);
         setIsLoading(false);
@@ -42,8 +30,7 @@ function Article() {
   }, [currentLanguage])
 
   useEffect(() => {
-    fetch(`https://${currentLanguage.code}.wikipedia.org/w/rest.php/v1/page/${searchForArticleKey(currentLanguage)}/links/language`)
-      .then(response => response.json())
+    api.get(`https://${currentLanguage.code}.wikipedia.org/w/rest.php/v1/page/${searchForArticleKey(currentLanguage)}/links/language`)
       .then(data => {
         setLanguages(data);
         setFilteredLanguages(data);
@@ -51,7 +38,6 @@ function Article() {
   }, [])
 
   const searchForArticleKey = (currentLanguage) => {
-    console.log(currentLanguage, languages)
     if (currentLanguage.code === "en") {
       return articleKey
     }
@@ -76,35 +62,16 @@ function Article() {
   }
 
   return (<div className="article">
-      {languages && <section className="languages">
-        <h2 className="languages-heading">Available languages</h2>
-      <SearchBar>
-        <input
-        onKeyDown={handleSearchLanguage}
-          type="text"
-          className="search-input"
-          placeholder="filter languages"
-        />
-      </SearchBar>
-        <ul className="language-list">
-          {filteredLanguages.map(lang => <li className="language" key={lang.code}><button onClick={() => handleOnLanguageChange(lang)}>{lang.name}</button></li>)}
-        </ul>
-        <div className="current-language">
-        <p className="current-language-info">Current language: {currentLanguage.name}</p>
-        {currentLanguage.code !== "en" && <button className="english-button" onClick={handleBackToEnglish}>Back to English Version</button>}
-        </div>
-      </section> }
+      {languages &&  <Languages
+      handleSearchLanguage={handleSearchLanguage}
+      filteredLanguages={filteredLanguages}
+      currentLanguage={currentLanguage}
+      handleBackToEnglish={handleBackToEnglish}
+      handleOnLanguageChange={handleOnLanguageChange}
+      />}
       {isLoading && <LoaderContainer loaderMessage="Parsing HTML..."/>}
-      {!isLoading && <div style={container}>{parse(page, options)}</div>}
+      {!isLoading && <ParsedArticle>{parse(page, parseOptions)}</ParsedArticle>}
   </div>
   )
 }
-
 export default Article;
-
-
-const container = {
-  padding: 20,
-  fontSize: "16px",
-  color: "black"
-};
