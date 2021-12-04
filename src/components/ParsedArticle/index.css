@@ -2,4 +2,17 @@
     padding: 2rem;
     font-size: var(--font-medium);
     color: black;
-  };
+  }
+
+  .parsed-article section{
+    margin-bottom: 2rem;
+  }
+
+  .parsed-article h2,h3,p{
+    margin-bottom: 1rem;
+  }
+
+  .parsed-article ul,ol{
+    list-style: inside;
+  }
+
