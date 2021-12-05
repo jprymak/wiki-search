@@ -77,3 +77,11 @@
     background-color: var(--color-white);
     color: var(--color-blue-light);
 }
+
+@media screen and (max-width: 500px) {
+    .languages {
+        display: flex;
+        flex-direction: column;
+    }
+  }
+  

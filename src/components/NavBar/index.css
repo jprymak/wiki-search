@@ -22,6 +22,7 @@
   }
   
   .nav-list li {
+    text-align: center;
     padding: 0.5rem 0.5rem;
     position: relative;
     margin-right: 1rem;
@@ -46,4 +47,10 @@
     font-family: ubuntu;
     color: var(--color-white);
     margin-right: auto;
+  }
+
+  @media screen and (max-width: 500px) {
+    .nav {
+      font-size: var(--font-medium);
+    } 
   }

@@ -11,11 +11,12 @@
   --color-grey-dark: #777;
 
   /*Font-sizes*/
-  --font-very-big: 2.4rem;
+  --font-very-big: 2.4rem; 
   --font-big: 2rem;
   --font-medium: 1.6rem;
   --font-small: 1.4rem;
   --font-very-small: 1.2rem;
+
 }
 
 *,
@@ -27,7 +28,13 @@
 }
 
 html {
-  font-size: 10px;
+  font-size: 62.5%;
+}
+
+@media screen and (max-width: 500px) {
+  html {
+    font-size: 9px;
+  }
 }
 
 body {
