@@ -62,13 +62,13 @@ function Article() {
   }
 
   return (<div className="article">
-      {languages &&  <Languages
+      {languages ?  <Languages
       handleSearchLanguage={handleSearchLanguage}
       filteredLanguages={filteredLanguages}
       currentLanguage={currentLanguage}
       handleBackToEnglish={handleBackToEnglish}
       handleOnLanguageChange={handleOnLanguageChange}
-      />}
+      /> : <LoaderContainer loaderMessage="Fetching available languages..."/>}
       {isLoading && <LoaderContainer loaderMessage="Parsing HTML..."/>}
       {!isLoading && <ParsedArticle>{parse(page, parseOptions)}</ParsedArticle>}
   </div>
