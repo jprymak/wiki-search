@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { Routes, Route } from "react-router-dom";
 
 import {NavBar} from "./components/NavBar";
 import SearchArticles from "./pages/SearchArticles";
 import Article from "./pages/Article";
 import History from "./pages/History";
+import {ErrorBoundary} from "components/ErrorBoundary"
 
 import api from "./api/request";
 
 import './App.css';
 
-const storage = localStorage.getItem("wiki-search")
+const storage = localStorage.getItem("wiki-search");
 
 function App() {
   const [results, setResults] = useState([]);
@@ -35,6 +36,7 @@ function App() {
             setIsLoading(false);
             e.target.value = "";
           })
+          .catch(error=>console.log(error))
       }
     }
 
@@ -48,11 +50,13 @@ function App() {
   return (
     <div className="App">
       <NavBar />
+      <ErrorBoundary>
       <Routes>
         <Route path="/:articleKey" element={<Article />} />
         <Route path="/history" element={<History history={history} handleClearHistory={handleClearHistory}/>} />
         <Route path="/" element={<SearchArticles results={results} onSearch={handleSearch} isLoading={isLoading}/>} />
       </Routes>
+      </ErrorBoundary>
     </div>
   );
 }

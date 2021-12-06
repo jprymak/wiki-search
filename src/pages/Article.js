@@ -11,6 +11,7 @@ import api from "../api/request";
 import { parseOptions } from "../utils/parsing";
 
 const initialLanguage = { code: "en", name: "English" };
+
 function Article() {
   const [page, setPage] = useState(null);
   const [currentLanguage, setCurrentLanguage] = useState(initialLanguage);
@@ -24,7 +25,13 @@ function Article() {
     setIsLoading(true);
     api.get(`https://${currentLanguage.code}.wikipedia.org/w/rest.php/v1/page/${searchForArticleKey(currentLanguage)}/with_html`)
       .then(data => {
-        setPage(data.html);
+        if(data){
+          setPage(data.html);
+          setIsLoading(false);
+        }
+      })
+      .catch(error=>{
+        console.log(error);
         setIsLoading(false);
       })
   }, [currentLanguage])
@@ -32,9 +39,12 @@ function Article() {
   useEffect(() => {
     api.get(`https://${currentLanguage.code}.wikipedia.org/w/rest.php/v1/page/${searchForArticleKey(currentLanguage)}/links/language`)
       .then(data => {
-        setLanguages(data);
-        setFilteredLanguages(data);
+        if(data){
+          setLanguages(data);
+          setFilteredLanguages(data);
+        }
       })
+      .catch(error=>{console.log(error)})
   }, [])
 
   const searchForArticleKey = (currentLanguage) => {
@@ -70,7 +80,7 @@ function Article() {
       handleOnLanguageChange={handleOnLanguageChange}
       /> : <LoaderContainer loaderMessage="Fetching available languages..."/>}
       {isLoading && <LoaderContainer loaderMessage="Parsing HTML..."/>}
-      {!isLoading && <ParsedArticle>{parse(page, parseOptions)}</ParsedArticle>}
+      {!isLoading && page && <ParsedArticle>{parse(page, parseOptions)}</ParsedArticle>}
   </div>
   )
 }
