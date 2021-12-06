@@ -32,7 +32,8 @@ function App() {
             const updatedHistory = [...history, ...data.pages];
             localStorage.setItem("wiki-search", JSON.stringify(updatedHistory))
             setHistory(updatedHistory);
-            setIsLoading(false)
+            setIsLoading(false);
+            e.target.value = "";
           })
       }
     }
