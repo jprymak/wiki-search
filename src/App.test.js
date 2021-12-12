@@ -2,6 +2,9 @@ import {shallow} from "enzyme";
 import App from './App';
 import "./setupTests";
 
-test('renders App component', () => {
-  shallow(<App />);
-});
+
+describe("App testing", ()=>{
+  test('renders App component without crashing', () => {
+   shallow(<App />);
+  });
+})
